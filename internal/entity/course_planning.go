@@ -21,3 +21,9 @@ type OrderedCourseRelationship struct {
 	CourseName string `json:"courseName"`
 	Order      int    `json:"order"`
 }
+
+type UserOrderedCourse struct {
+	UserId     uuid.UUID `json:"user_id"`
+	CourseName string    `json:"course_name"`
+	Order      int       `json:"order"`
+}

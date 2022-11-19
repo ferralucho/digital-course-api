@@ -1,0 +1,13 @@
+app:
+  name: 'digital-course-api'
+  version: '1.0.0'
+
+http:
+  port: '8080'
+
+logger:
+  log_level: 'debug'
+  rollbar_env: 'digital-course-api'
+
+postgres:
+  pool_max: 2

@@ -3,7 +3,7 @@ package entity
 import "github.com/google/uuid"
 
 type CoursePlanning struct {
-	UserId  uuid.UUID            `json:"userId,type:uuid,default:uuid_generate_v4()"`
+	UserId  uuid.UUID            `json:"userId,type:uuid"`
 	Courses []CourseRelationship `json:"courses"`
 }
 
@@ -13,7 +13,7 @@ type CourseRelationship struct {
 }
 
 type OrderedCoursePlanning struct {
-	UserId  uuid.UUID                   `json:"userId,type:uuid,default:uuid_generate_v4()"`
+	UserId  uuid.UUID                   `json:"userId,type:uuid"`
 	Courses []OrderedCourseRelationship `json:"courses"`
 }
 
@@ -25,5 +25,5 @@ type OrderedCourseRelationship struct {
 type UserOrderedCourse struct {
 	UserId     uuid.UUID `json:"user_id"`
 	CourseName string    `json:"course_name"`
-	Order      int       `json:"order"`
+	Order      int       `json:"course_order"`
 }

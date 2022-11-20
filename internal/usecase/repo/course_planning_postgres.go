@@ -23,8 +23,8 @@ func New(pg *postgres.Postgres) *CoursePlanningRepo {
 // GetCoursePlanning -.
 func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context) ([]entity.UserOrderedCourse, error) {
 	sql, _, err := r.Builder.
-		Select("user_id, course_name, order").
-		From("course_planning").
+		Select("user_id, course_name, course_order").
+		From("user_course_planning").
 		ToSql()
 	if err != nil {
 		return nil, fmt.Errorf("CoursePlanningRepo - GetCoursePlanning - r.Builder: %w", err)
@@ -55,8 +55,8 @@ func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context) ([]entity.Us
 // Store -.
 func (r *CoursePlanningRepo) Store(ctx context.Context, t entity.UserOrderedCourse) error {
 	sql, args, err := r.Builder.
-		Insert("course_planning").
-		Columns("user_id, course_name, order").
+		Insert("user_course_planning").
+		Columns("user_id, course_name, course_order").
 		Values(t.UserId, t.CourseName, t.Order).
 		ToSql()
 	if err != nil {

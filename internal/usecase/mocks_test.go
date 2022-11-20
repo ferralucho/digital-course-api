@@ -10,6 +10,7 @@ import (
 
         entity "github.com/ferralucho/digital-course-api/internal/entity"
         gomock "github.com/golang/mock/gomock"
+        uuid "github.com/google/uuid"
 )
 
 // MockCoursePlanning is a mock of CoursePlanning interface.
@@ -36,10 +37,10 @@ func (m *MockCoursePlanning) EXPECT() *MockCoursePlanningMockRecorder {
 }
 
 // CoursePlanning mocks base method.
-func (m *MockCoursePlanning) CoursePlanning(arg0 context.Context) ([]entity.UserOrderedCourse, error) {
+func (m *MockCoursePlanning) CoursePlanning(arg0 context.Context) (entity.OrderedCoursePlanning, error) {
         m.ctrl.T.Helper()
         ret := m.ctrl.Call(m, "CoursePlanning", arg0)
-        ret0, _ := ret[0].([]entity.UserOrderedCourse)
+        ret0, _ := ret[0].(entity.OrderedCoursePlanning)
         ret1, _ := ret[1].(error)
         return ret0, ret1
 }
@@ -51,10 +52,10 @@ func (mr *MockCoursePlanningMockRecorder) CoursePlanning(arg0 interface{}) *gomo
 }
 
 // OrderCoursePlanning mocks base method.
-func (m *MockCoursePlanning) OrderCoursePlanning(arg0 context.Context, arg1 entity.CoursePlanning) (entity.UserOrderedCourse, error) {
+func (m *MockCoursePlanning) OrderCoursePlanning(arg0 context.Context, arg1 entity.CoursePlanning) (entity.OrderedCoursePlanning, error) {
         m.ctrl.T.Helper()
         ret := m.ctrl.Call(m, "OrderCoursePlanning", arg0, arg1)
-        ret0, _ := ret[0].(entity.UserOrderedCourse)
+        ret0, _ := ret[0].(entity.OrderedCoursePlanning)
         ret1, _ := ret[1].(error)
         return ret0, ret1
 }
@@ -89,7 +90,7 @@ func (m *MockCoursePlanningRepo) EXPECT() *MockCoursePlanningRepoMockRecorder {
 }
 
 // GetCoursePlanning mocks base method.
-func (m *MockCoursePlanningRepo) GetCoursePlanning(arg0 context.Context, arg1 int) ([]entity.UserOrderedCourse, error) {
+func (m *MockCoursePlanningRepo) GetCoursePlanning(arg0 context.Context, arg1 uuid.UUID) ([]entity.UserOrderedCourse, error) {
         m.ctrl.T.Helper()
         ret := m.ctrl.Call(m, "GetCoursePlanning", arg0, arg1)
         ret0, _ := ret[0].([]entity.UserOrderedCourse)

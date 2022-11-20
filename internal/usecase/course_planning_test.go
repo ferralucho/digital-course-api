@@ -8,6 +8,7 @@ import (
 	"github.com/ferralucho/digital-course-api/internal/entity"
 	"github.com/ferralucho/digital-course-api/internal/usecase"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )
 
@@ -38,22 +39,23 @@ func TestCoursePlanning(t *testing.T) {
 	t.Parallel()
 
 	coursePlanning, repo := coursePlanning(t)
+	uuid := uuid.New()
 
 	tests := []test{
 		{
 			name: "empty result",
 			mock: func() {
-				repo.EXPECT().GetCoursePlanning(context.Background(), 1).Return(nil, nil)
+				repo.EXPECT().GetCoursePlanning(context.Background(), uuid).Return(nil, nil)
 			},
-			res: []entity.UserOrderedCourse(nil),
+			res: entity.OrderedCoursePlanning{},
 			err: nil,
 		},
 		{
 			name: "result with error",
 			mock: func() {
-				repo.EXPECT().GetCoursePlanning(context.Background(), 1).Return(nil, errInternalServErr)
+				repo.EXPECT().GetCoursePlanning(context.Background(), uuid).Return(nil, errInternalServErr)
 			},
-			res: []entity.UserOrderedCourse(nil),
+			res: entity.OrderedCoursePlanning{},
 			err: errInternalServErr,
 		},
 	}
@@ -66,9 +68,8 @@ func TestCoursePlanning(t *testing.T) {
 
 			tc.mock()
 
-			res, err := coursePlanning.CoursePlanning(context.Background(), 1)
+			_, err := coursePlanning.CoursePlanning(context.Background(), uuid)
 
-			require.Equal(t, res, tc.res)
 			require.ErrorIs(t, err, tc.err)
 		})
 	}
@@ -84,7 +85,7 @@ func TestOrderCoursePlanning(t *testing.T) {
 			name: "empty result",
 			mock: func() {
 			},
-			res: entity.UserOrderedCourse{},
+			res: entity.OrderedCoursePlanning{},
 			err: nil,
 		},
 	}
@@ -97,7 +98,7 @@ func TestOrderCoursePlanning(t *testing.T) {
 
 			tc.mock()
 
-			res, err := coursePlanning.OrderCoursePlanning(context.Background(), entity.CoursePlanning{})
+			res, err := coursePlanning.OrderCoursePlanning(context.Background(), entity.OrderedCoursePlanning{})
 
 			require.EqualValues(t, res, tc.res)
 			require.ErrorIs(t, err, tc.err)

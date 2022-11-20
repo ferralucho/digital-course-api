@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ferralucho/digital-course-api/internal/entity"
+	"github.com/google/uuid"
 )
 
 // CoursePlanningUseCase -.
@@ -20,18 +21,31 @@ func New(r CoursePlanningRepo) *CoursePlanningUseCase {
 }
 
 // CoursePlanning - getting course planning for a user from store.
-func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId int) ([]entity.UserOrderedCourse, error) {
-	translations, err := uc.repo.GetCoursePlanning(ctx, userId)
+func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid.UUID) (entity.OrderedCoursePlanning, error) {
+	courses, err := uc.repo.GetCoursePlanning(ctx, userId)
 	if err != nil {
-		return nil, fmt.Errorf("CoursePlanningUseCase - CoursePlanning - s.repo.GetCoursePlanning: %w", err)
+		return entity.OrderedCoursePlanning{}, fmt.Errorf("CoursePlanningUseCase - CoursePlanning - s.repo.GetCoursePlanning: %w", err)
 	}
 
-	return translations, nil
+	relationships := make([]entity.OrderedCourseRelationship, len(courses))
+	for i, c := range courses {
+		relationships[i] = entity.OrderedCourseRelationship{
+			CourseName: c.CourseName,
+			Order:      c.Order,
+		}
+	}
+
+	ordered := entity.OrderedCoursePlanning{
+		UserId:  userId,
+		Courses: relationships,
+	}
+
+	return ordered, nil
 }
 
 // OrderCoursePlanning -.
-func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.CoursePlanning) (entity.UserOrderedCourse, error) {
-	orderedCourse := entity.UserOrderedCourse{}
+func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.OrderedCoursePlanning) (entity.OrderedCoursePlanning, error) {
+	orderedCourse := entity.OrderedCoursePlanning{}
 
 	return orderedCourse, nil
 }

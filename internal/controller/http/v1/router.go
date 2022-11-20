@@ -10,6 +10,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	// Swagger docs.
+	_ "github.com/evrone/go-clean-template/docs"
+
+	// Swagger docs.
 	"github.com/ferralucho/digital-course-api/internal/usecase"
 	"github.com/ferralucho/digital-course-api/pkg/logger"
 )

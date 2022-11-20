@@ -73,3 +73,34 @@ func TestCoursePlanning(t *testing.T) {
 		})
 	}
 }
+
+func TestOrderCoursePlanning(t *testing.T) {
+	t.Parallel()
+
+	coursePlanning, _ := coursePlanning(t)
+
+	tests := []test{
+		{
+			name: "empty result",
+			mock: func() {
+			},
+			res: entity.UserOrderedCourse{},
+			err: nil,
+		},
+	}
+
+	for _, tc := range tests {
+		tc := tc
+
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			tc.mock()
+
+			res, err := coursePlanning.OrderCoursePlanning(context.Background(), entity.CoursePlanning{})
+
+			require.EqualValues(t, res, tc.res)
+			require.ErrorIs(t, err, tc.err)
+		})
+	}
+}

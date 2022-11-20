@@ -6,6 +6,7 @@ import (
 
 	"github.com/ferralucho/digital-course-api/internal/entity"
 	"github.com/ferralucho/digital-course-api/pkg/postgres"
+	"github.com/google/uuid"
 )
 
 const _defaultEntityCap = 64
@@ -21,7 +22,7 @@ func New(pg *postgres.Postgres) *CoursePlanningRepo {
 }
 
 // GetCoursePlanning -.
-func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context, userId int) ([]entity.UserOrderedCourse, error) {
+func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context, userId uuid.UUID) ([]entity.UserOrderedCourse, error) {
 	sql, _, err := r.Builder.
 		Select("user_id, course_name, course_order").
 		From("user_course_planning").

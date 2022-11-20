@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/ferralucho/digital-course-api/internal/entity"
@@ -19,10 +20,10 @@ type coursePlanningRoutes struct {
 func newCoursePlanningRoutes(handler *gin.RouterGroup, t usecase.CoursePlanning, l logger.Interface) {
 	r := &coursePlanningRoutes{t, l}
 
-	h := handler.Group("/course")
+	h := handler.Group("/user")
 	{
-		h.GET("/planning", r.coursePlanning)
-		h.POST("/order", r.doOrderCourses)
+		h.GET("/:user_id/planning", r.coursePlanning)
+		h.POST("/course", r.doOrderCourses)
 	}
 }
 
@@ -32,15 +33,33 @@ type userOrderedResponse struct {
 
 // @Summary     Show ordered courses
 // @Description Show all ordered courses for the user
-// @ID          coursePlanning
+// @ID          course-planning
 // @Tags  	    coursePlanning
 // @Accept      json
 // @Produce     json
 // @Success     200 {object} entity.OrderedCoursePlanning
 // @Failure     500 {object} response
-// @Router      /course/planning [get]
+// @Router      /course/planning/:id [get]
 func (r *coursePlanningRoutes) coursePlanning(c *gin.Context) {
-	courses, err := r.t.CoursePlanning(c.Request.Context())
+	userId := c.Param("user_id")
+
+	if userId == "" {
+		r.l.Error(errors.New("missing user_id"), "http - v1 - course planning")
+		errorResponse(c, http.StatusBadRequest, "missing user_id")
+
+		return
+	}
+
+	uId, err := uuid.Parse(userId)
+
+	if err != nil {
+		r.l.Error(errors.New("invalid param for user_id"), "http - v1 - course planning")
+		errorResponse(c, http.StatusBadRequest, "invalid param for user_id")
+
+		return
+	}
+
+	courses, err := r.t.CoursePlanning(c.Request.Context(), uId)
 	if err != nil {
 		r.l.Error(err, "http - v1 - course planning")
 		errorResponse(c, http.StatusInternalServerError, "server error")
@@ -65,7 +84,7 @@ type doOrderCoursesRequest struct {
 // @Success     200 {object} entity.OrderedCoursePlanning
 // @Failure     400 {object} response
 // @Failure     500 {object} response
-// @Router      /course/order [post]
+// @Router      /course [post]
 func (r *coursePlanningRoutes) doOrderCourses(c *gin.Context) {
 	var request doOrderCoursesRequest
 	if err := c.ShouldBindJSON(&request); err != nil {

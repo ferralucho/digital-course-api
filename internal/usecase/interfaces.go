@@ -14,7 +14,7 @@ type (
 	// CoursePlanning -.
 	CoursePlanning interface {
 		OrderCoursePlanning(context.Context, entity.CoursePlanning) (entity.OrderedCoursePlanning, error)
-		CoursePlanning(context.Context) (entity.OrderedCoursePlanning, error)
+		CoursePlanning(context.Context, uuid.UUID) (entity.OrderedCoursePlanning, error)
 	}
 
 	// CoursePlanningRepo -.

@@ -37,18 +37,18 @@ func (m *MockCoursePlanning) EXPECT() *MockCoursePlanningMockRecorder {
 }
 
 // CoursePlanning mocks base method.
-func (m *MockCoursePlanning) CoursePlanning(arg0 context.Context) (entity.OrderedCoursePlanning, error) {
+func (m *MockCoursePlanning) CoursePlanning(arg0 context.Context, arg1 uuid.UUID) (entity.OrderedCoursePlanning, error) {
         m.ctrl.T.Helper()
-        ret := m.ctrl.Call(m, "CoursePlanning", arg0)
+        ret := m.ctrl.Call(m, "CoursePlanning", arg0, arg1)
         ret0, _ := ret[0].(entity.OrderedCoursePlanning)
         ret1, _ := ret[1].(error)
         return ret0, ret1
 }
 
 // CoursePlanning indicates an expected call of CoursePlanning.
-func (mr *MockCoursePlanningMockRecorder) CoursePlanning(arg0 interface{}) *gomock.Call {
+func (mr *MockCoursePlanningMockRecorder) CoursePlanning(arg0, arg1 interface{}) *gomock.Call {
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).CoursePlanning), arg0)
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).CoursePlanning), arg0, arg1)
 }
 
 // OrderCoursePlanning mocks base method.
@@ -63,7 +63,7 @@ func (m *MockCoursePlanning) OrderCoursePlanning(arg0 context.Context, arg1 enti
 // OrderCoursePlanning indicates an expected call of OrderCoursePlanning.
 func (mr *MockCoursePlanningMockRecorder) OrderCoursePlanning(arg0, arg1 interface{}) *gomock.Call {
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderCoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).OrderCoursePlanning), arg0, arg1)
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderCoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).OrderCoursePlanning), arg0, arg1)  
 }
 
 // MockCoursePlanningRepo is a mock of CoursePlanningRepo interface.
@@ -101,12 +101,11 @@ func (m *MockCoursePlanningRepo) GetCoursePlanning(arg0 context.Context, arg1 uu
 // GetCoursePlanning indicates an expected call of GetCoursePlanning.
 func (mr *MockCoursePlanningRepoMockRecorder) GetCoursePlanning(arg0, arg1 interface{}) *gomock.Call {
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCoursePlanning", reflect.TypeOf((*MockCoursePlanningRepo)(nil).GetCoursePlanning), arg0, arg1)
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCoursePlanning", reflect.TypeOf((*MockCoursePlanningRepo)(nil).GetCoursePlanning), arg0, arg1)  
 }
 
 // Store mocks base method.
 func (m *MockCoursePlanningRepo) Store(arg0 context.Context, arg1 entity.UserOrderedCourse) error {
-        m.ctrl.T.Helper()
         ret := m.ctrl.Call(m, "Store", arg0, arg1)
         ret0, _ := ret[0].(error)
         return ret0

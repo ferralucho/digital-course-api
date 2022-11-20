@@ -98,7 +98,7 @@ func TestOrderCoursePlanning(t *testing.T) {
 
 			tc.mock()
 
-			res, err := coursePlanning.OrderCoursePlanning(context.Background(), entity.OrderedCoursePlanning{})
+			res, err := coursePlanning.OrderCoursePlanning(context.Background(), entity.CoursePlanning{})
 
 			require.EqualValues(t, res, tc.res)
 			require.ErrorIs(t, err, tc.err)

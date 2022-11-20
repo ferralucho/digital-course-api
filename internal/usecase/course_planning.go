@@ -44,7 +44,7 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 }
 
 // OrderCoursePlanning -.
-func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.OrderedCoursePlanning) (entity.OrderedCoursePlanning, error) {
+func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.CoursePlanning) (entity.OrderedCoursePlanning, error) {
 	orderedCourse := entity.OrderedCoursePlanning{}
 
 	return orderedCourse, nil

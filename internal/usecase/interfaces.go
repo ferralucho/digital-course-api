@@ -19,6 +19,6 @@ type (
 	// CoursePlanningRepo -.
 	CoursePlanningRepo interface {
 		Store(context.Context, entity.UserOrderedCourse) error
-		GetCoursePlanning(context.Context) ([]entity.UserOrderedCourse, error)
+		GetCoursePlanning(context.Context, int) ([]entity.UserOrderedCourse, error)
 	}
 )

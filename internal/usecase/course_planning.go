@@ -20,8 +20,8 @@ func New(r CoursePlanningRepo) *CoursePlanningUseCase {
 }
 
 // CoursePlanning - getting course planning for a user from store.
-func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context) ([]entity.UserOrderedCourse, error) {
-	translations, err := uc.repo.GetCoursePlanning(ctx)
+func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId int) ([]entity.UserOrderedCourse, error) {
+	translations, err := uc.repo.GetCoursePlanning(ctx, userId)
 	if err != nil {
 		return nil, fmt.Errorf("CoursePlanningUseCase - CoursePlanning - s.repo.GetCoursePlanning: %w", err)
 	}

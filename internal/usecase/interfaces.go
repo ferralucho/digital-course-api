@@ -21,9 +21,4 @@ type (
 		Store(context.Context, entity.UserOrderedCourse) error
 		GetCoursePlanning(context.Context) ([]entity.UserOrderedCourse, error)
 	}
-
-	// CoursePlanningWebAPI -.
-	CoursePlanningWebAPI interface {
-		OrderCoursePlanning(entity.CoursePlanning) (entity.CoursePlanning, error)
-	}
 )

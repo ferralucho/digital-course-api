@@ -21,10 +21,11 @@ func New(pg *postgres.Postgres) *CoursePlanningRepo {
 }
 
 // GetCoursePlanning -.
-func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context) ([]entity.UserOrderedCourse, error) {
+func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context, userId int) ([]entity.UserOrderedCourse, error) {
 	sql, _, err := r.Builder.
 		Select("user_id, course_name, course_order").
 		From("user_course_planning").
+		Where("user_id = ?", userId).
 		ToSql()
 	if err != nil {
 		return nil, fmt.Errorf("CoursePlanningRepo - GetCoursePlanning - r.Builder: %w", err)
@@ -56,8 +57,8 @@ func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context) ([]entity.Us
 func (r *CoursePlanningRepo) Store(ctx context.Context, t entity.UserOrderedCourse) error {
 	sql, args, err := r.Builder.
 		Insert("user_course_planning").
-		Columns("user_id, course_name, course_order").
-		Values(t.UserId, t.CourseName, t.Order).
+		Columns("user_id, course_order, course_name, ").
+		Values(t.UserId, t.Order, t.CourseName).
 		ToSql()
 	if err != nil {
 		return fmt.Errorf("CoursePlanningRepo - Store - r.Builder: %w", err)
@@ -66,6 +67,24 @@ func (r *CoursePlanningRepo) Store(ctx context.Context, t entity.UserOrderedCour
 	_, err = r.Pool.Exec(ctx, sql, args...)
 	if err != nil {
 		return fmt.Errorf("CoursePlanningRepo - Store - r.Pool.Exec: %w", err)
+	}
+
+	return nil
+}
+
+// DeleteUserCourses -.
+func (r *CoursePlanningRepo) DeleteUserCourses(ctx context.Context, t entity.UserOrderedCourse) error {
+	sql, args, err := r.Builder.
+		Delete("user_course_planning").
+		Where("user_id = ?", t.UserId).
+		ToSql()
+	if err != nil {
+		return fmt.Errorf("CoursePlanningRepo - DeleteUserCourses - r.Builder: %w", err)
+	}
+
+	_, err = r.Pool.Exec(ctx, sql, args...)
+	if err != nil {
+		return fmt.Errorf("CoursePlanningRepo - DeleteUserCourses - r.Pool.Exec: %w", err)
 	}
 
 	return nil

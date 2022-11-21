@@ -61,11 +61,34 @@ func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t enti
 			for i := 0; i < len(desiredCourses)-1; i++ {
 				if courseMap[orderedCourses[i].CourseName] != "" {
 					orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: courseMap[orderedCourses[i].CourseName], Order: i + 1})
-
 				}
 			}
 			break
 		}
+	}
+
+	if len(orderedCourses) > 0 {
+		err := uc.repo.DeleteUserCourses(ctx, t.UserId)
+		if err != nil {
+			return entity.OrderedCoursePlanning{}, fmt.Errorf("CoursePlanningUseCase - CoursePlanning - s.repo.DeleteUserCourses: %w", err)
+		}
+
+		var orderedCourse entity.UserOrderedCourse
+
+		for _, ocr := range orderedCourses {
+			orderedCourse = entity.UserOrderedCourse{
+				UserId:     t.UserId,
+				CourseName: ocr.CourseName,
+				Order:      ocr.Order,
+			}
+
+			err := uc.repo.Store(ctx, orderedCourse)
+
+			if err != nil {
+				return entity.OrderedCoursePlanning{}, fmt.Errorf("CoursePlanningUseCase - CoursePlanning - s.repo.Store: %w", err)
+			}
+		}
+
 	}
 
 	orderedCourse := entity.OrderedCoursePlanning{

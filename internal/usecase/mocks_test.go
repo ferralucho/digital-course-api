@@ -63,7 +63,7 @@ func (m *MockCoursePlanning) OrderCoursePlanning(arg0 context.Context, arg1 enti
 // OrderCoursePlanning indicates an expected call of OrderCoursePlanning.
 func (mr *MockCoursePlanningMockRecorder) OrderCoursePlanning(arg0, arg1 interface{}) *gomock.Call {
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderCoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).OrderCoursePlanning), arg0, arg1)  
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderCoursePlanning", reflect.TypeOf((*MockCoursePlanning)(nil).OrderCoursePlanning), arg0, arg1)
 }
 
 // MockCoursePlanningRepo is a mock of CoursePlanningRepo interface.
@@ -89,6 +89,20 @@ func (m *MockCoursePlanningRepo) EXPECT() *MockCoursePlanningRepoMockRecorder {
         return m.recorder
 }
 
+// DeleteUserCourses mocks base method.
+func (m *MockCoursePlanningRepo) DeleteUserCourses(arg0 context.Context, arg1 uuid.UUID) error {
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "DeleteUserCourses", arg0, arg1)
+        ret0, _ := ret[0].(error)
+        return ret0
+}
+
+// DeleteUserCourses indicates an expected call of DeleteUserCourses.
+func (mr *MockCoursePlanningRepoMockRecorder) DeleteUserCourses(arg0, arg1 interface{}) *gomock.Call {
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserCourses", reflect.TypeOf((*MockCoursePlanningRepo)(nil).DeleteUserCourses), arg0, arg1)
+}
+
 // GetCoursePlanning mocks base method.
 func (m *MockCoursePlanningRepo) GetCoursePlanning(arg0 context.Context, arg1 uuid.UUID) ([]entity.UserOrderedCourse, error) {
         m.ctrl.T.Helper()
@@ -101,11 +115,12 @@ func (m *MockCoursePlanningRepo) GetCoursePlanning(arg0 context.Context, arg1 uu
 // GetCoursePlanning indicates an expected call of GetCoursePlanning.
 func (mr *MockCoursePlanningRepoMockRecorder) GetCoursePlanning(arg0, arg1 interface{}) *gomock.Call {
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCoursePlanning", reflect.TypeOf((*MockCoursePlanningRepo)(nil).GetCoursePlanning), arg0, arg1)  
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCoursePlanning", reflect.TypeOf((*MockCoursePlanningRepo)(nil).GetCoursePlanning), arg0, arg1)
 }
 
 // Store mocks base method.
 func (m *MockCoursePlanningRepo) Store(arg0 context.Context, arg1 entity.UserOrderedCourse) error {
+        m.ctrl.T.Helper()
         ret := m.ctrl.Call(m, "Store", arg0, arg1)
         ret0, _ := ret[0].(error)
         return ret0

@@ -59,7 +59,7 @@ func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context, userId uuid.
 func (r *CoursePlanningRepo) Store(ctx context.Context, t entity.UserOrderedCourse) error {
 	sql, args, err := r.Builder.
 		Insert("user_course_planning").
-		Columns("user_id, course_order, course_name, ").
+		Columns("user_id, course_order, course_name").
 		Values(t.UserId, t.Order, t.CourseName).
 		ToSql()
 	if err != nil {
@@ -75,10 +75,10 @@ func (r *CoursePlanningRepo) Store(ctx context.Context, t entity.UserOrderedCour
 }
 
 // DeleteUserCourses -.
-func (r *CoursePlanningRepo) DeleteUserCourses(ctx context.Context, t entity.UserOrderedCourse) error {
+func (r *CoursePlanningRepo) DeleteUserCourses(ctx context.Context, userId uuid.UUID) error {
 	sql, args, err := r.Builder.
 		Delete("user_course_planning").
-		Where("user_id = ?", t.UserId).
+		Where("user_id = ?", userId).
 		ToSql()
 	if err != nil {
 		return fmt.Errorf("CoursePlanningRepo - DeleteUserCourses - r.Builder: %w", err)

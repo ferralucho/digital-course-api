@@ -20,6 +20,7 @@ type (
 	// CoursePlanningRepo -.
 	CoursePlanningRepo interface {
 		Store(context.Context, entity.UserOrderedCourse) error
+		DeleteUserCourses(context.Context, uuid.UUID) error
 		GetCoursePlanning(context.Context, uuid.UUID) ([]entity.UserOrderedCourse, error)
 	}
 )

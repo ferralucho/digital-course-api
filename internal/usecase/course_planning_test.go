@@ -68,8 +68,9 @@ func TestCoursePlanning(t *testing.T) {
 
 			tc.mock()
 
-			_, err := coursePlanning.CoursePlanning(context.Background(), uuid)
+			res, err := coursePlanning.CoursePlanning(context.Background(), uuid)
 
+			require.EqualValues(t, res, tc.res)
 			require.ErrorIs(t, err, tc.err)
 		})
 	}

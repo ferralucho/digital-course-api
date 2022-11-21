@@ -35,10 +35,7 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 		}
 	}
 
-	ordered := entity.OrderedCoursePlanning{
-		UserId:  userId,
-		Courses: relationships,
-	}
+	ordered := entity.OrderedCoursePlanning{}
 
 	return ordered, nil
 }
@@ -47,6 +44,10 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.CoursePlanning) (entity.OrderedCoursePlanning, error) {
 
 	orderedCourses := make([]entity.OrderedCourseRelationship, 0, len(t.Courses)+1)
+
+	if len(t.Courses) == 0 {
+		return entity.OrderedCoursePlanning{}, nil
+	}
 	desiredCourses := make([]string, 0, len(t.Courses)-1)
 
 	courseMap := make(map[string]string)

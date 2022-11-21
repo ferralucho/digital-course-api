@@ -28,11 +28,12 @@ func (r *CoursePlanningRepo) GetCoursePlanning(ctx context.Context, userId uuid.
 		From("user_course_planning").
 		Where("user_id = ?", userId).
 		ToSql()
+
 	if err != nil {
 		return nil, fmt.Errorf("CoursePlanningRepo - GetCoursePlanning - r.Builder: %w", err)
 	}
 
-	rows, err := r.Pool.Query(ctx, sql)
+	rows, err := r.Pool.Query(ctx, sql, userId)
 	if err != nil {
 		return nil, fmt.Errorf("CoursePlanningRepo - GetCoursePlanning - r.Pool.Query: %w", err)
 	}

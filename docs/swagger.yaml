@@ -1,0 +1,101 @@
+basePath: /v1
+definitions:
+  entity.CourseRelationship:
+    properties:
+      desiredCourse:
+        type: string
+      requiredCourse:
+        type: string
+    type: object
+  entity.OrderedCoursePlanning:
+    properties:
+      courses:
+        items:
+          $ref: '#/definitions/entity.OrderedCourseRelationship'
+        type: array
+      userId:
+        type: string
+    type: object
+  entity.OrderedCourseRelationship:
+    properties:
+      courseName:
+        type: string
+      order:
+        type: integer
+    type: object
+  v1.doOrderCoursesRequest:
+    properties:
+      courses:
+        items:
+          $ref: '#/definitions/entity.CourseRelationship'
+        type: array
+      userId:
+        type: string
+    required:
+    - courses
+    - userId
+    type: object
+  v1.response:
+    properties:
+      error:
+        example: message
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Api for digital courses
+  title: Digital Course API
+  version: "1.0"
+paths:
+  /course:
+    post:
+      consumes:
+      - application/json
+      description: Order user courses
+      operationId: do-order
+      parameters:
+      - description: Order courses for the user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.doOrderCoursesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.OrderedCoursePlanning'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      tags:
+      - coursePlanning
+  /course/planning/:id:
+    get:
+      consumes:
+      - application/json
+      description: Show all ordered courses for the user
+      operationId: course-planning
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.OrderedCoursePlanning'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Show ordered courses
+      tags:
+      - coursePlanning
+swagger: "2.0"

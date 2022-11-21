@@ -45,7 +45,42 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 
 // OrderCoursePlanning -.
 func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.CoursePlanning) (entity.OrderedCoursePlanning, error) {
-	orderedCourse := entity.OrderedCoursePlanning{}
+
+	orderedCourses := make([]entity.OrderedCourseRelationship, 0, len(t.Courses)+1)
+	desiredCourses := make([]string, 0, len(t.Courses)-1)
+
+	courseMap := make(map[string]string)
+	for _, v := range t.Courses {
+		desiredCourses = append(desiredCourses, v.DesiredCourse)
+		courseMap[v.RequiredCourse] = v.DesiredCourse
+	}
+
+	for k := range courseMap {
+		if !contains(desiredCourses, k) {
+			orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: k, Order: 0})
+			for i := 0; i < len(desiredCourses)-1; i++ {
+				if courseMap[orderedCourses[i].CourseName] != "" {
+					orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: courseMap[orderedCourses[i].CourseName], Order: i + 1})
+
+				}
+			}
+			break
+		}
+	}
+
+	orderedCourse := entity.OrderedCoursePlanning{
+		UserId:  t.UserId,
+		Courses: orderedCourses,
+	}
 
 	return orderedCourse, nil
+}
+
+func contains(s []string, e string) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
 }

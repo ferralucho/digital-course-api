@@ -136,7 +136,3 @@ func (uc *UseCase) Do()  {
 
 It will also allow us to do auto-generation of mocks and easily write unit tests.  https://github.com/golang/mock
 
-> We are not tied to specific implementations in order to always be able to change one component to another.
-> If the new component implements the interface, nothing needs to be changed in the business logic.
-
-

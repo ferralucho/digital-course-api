@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/ferralucho/digital-course-api/internal/entity"
 	"github.com/google/uuid"
@@ -53,17 +54,34 @@ func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t enti
 	courseMap := make(map[string]string)
 	for _, v := range t.Courses {
 		desiredCourses = append(desiredCourses, v.DesiredCourse)
-		courseMap[v.RequiredCourse] = v.DesiredCourse
+		if val, ok := courseMap[v.RequiredCourse]; ok {
+			courseMap[v.RequiredCourse] = val + "-" + v.DesiredCourse
+		} else {
+			courseMap[v.RequiredCourse] = v.DesiredCourse
+		}
 	}
 
+	order := 0
 	for k := range courseMap {
 		if !contains(desiredCourses, k) {
 			orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: k, Order: 0})
+
 			for i := 0; i < len(desiredCourses)-1; i++ {
 				if courseMap[orderedCourses[i].CourseName] != "" {
-					orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: courseMap[orderedCourses[i].CourseName], Order: i + 1})
+					splitted := strings.Split(courseMap[orderedCourses[i].CourseName], "-")
+					if len(splitted) == 1 {
+						order += 1
+						orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: courseMap[orderedCourses[i].CourseName], Order: order})
+					} else {
+						for j := 0; j < len(splitted); j++ {
+							order += 1
+							orderedCourses = append(orderedCourses, entity.OrderedCourseRelationship{CourseName: splitted[j], Order: order})
+						}
+					}
+
 				}
 			}
+
 			break
 		}
 	}

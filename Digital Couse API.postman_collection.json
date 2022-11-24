@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "cefdd906-6a7d-4cb7-99e6-66a01f7ac81e",
+		"name": "Digital Couse API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get ordered planning by user ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://:8080/v1/user/30ecc27b-9df7-4dd3-b52f-d001e79bd035/planning",
+					"protocol": "http",
+					"port": "8080",
+					"path": [
+						"v1",
+						"user",
+						"30ecc27b-9df7-4dd3-b52f-d001e79bd035",
+						"planning"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post order course for user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"30ecc27b-9df7-4dd3-b52f-d001e79bd035\",\r\n    \"courses\": [\r\n        {\r\n            \"desiredCourse\": \"PortfolioConstruction\",\r\n            \"requiredCourse\": \"PortfolioTheories\"\r\n        },\r\n        {\r\n            \"desiredCourse\": \"InvestmentManagement\",\r\n            \"requiredCourse\": \"Investment\"\r\n        },\r\n        {\r\n            \"desiredCourse\": \"Investment\",\r\n            \"requiredCourse\": \"Finance\"\r\n        },\r\n        {\r\n            \"desiredCourse\": \"PortfolioTheories\",\r\n            \"requiredCourse\": \"Investment\"\r\n        },\r\n        {\r\n            \"desiredCourse\": \"InvestmentStyle\",\r\n            \"requiredCourse\": \"InvestmentManagement\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/user/course",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"user",
+						"course"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/healthz",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"healthz"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -46,7 +46,6 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 
 // OrderCoursePlanning -.
 func (uc *CoursePlanningUseCase) OrderCoursePlanning(ctx context.Context, t entity.CoursePlanning) (entity.OrderedCoursePlanning, error) {
-
 	orderedCourses := make([]entity.OrderedCourseRelationship, 0, len(t.Courses)+1)
 
 	if len(t.Courses) == 0 {

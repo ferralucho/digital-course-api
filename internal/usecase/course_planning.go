@@ -36,7 +36,10 @@ func (uc *CoursePlanningUseCase) CoursePlanning(ctx context.Context, userId uuid
 		}
 	}
 
-	ordered := entity.OrderedCoursePlanning{}
+	ordered := entity.OrderedCoursePlanning{
+		UserId:  userId,
+		Courses: relationships,
+	}
 
 	return ordered, nil
 }

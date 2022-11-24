@@ -2,6 +2,8 @@
 
 Go api for courses, clean architecture, postgre and firebase implementation
 
+Firebase middleware is disabled for the moment, uncomment 	//handler.Use(middleware.AuthMiddleware) in router.
+
 ## Content
 - [Quick start](#quick-start)
 - [Project structure](#project-structure)

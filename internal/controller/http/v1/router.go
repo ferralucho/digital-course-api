@@ -12,7 +12,6 @@ import (
 	// Swagger docs.
 	"github.com/ferralucho/digital-course-api/config"
 	_ "github.com/ferralucho/digital-course-api/docs"
-	"github.com/ferralucho/digital-course-api/internal/middleware"
 	"github.com/ferralucho/digital-course-api/internal/usecase"
 	"github.com/ferralucho/digital-course-api/pkg/logger"
 )
@@ -46,7 +45,7 @@ func NewRouter(handler *gin.Engine, l logger.Interface, t usecase.CoursePlanning
 	})
 
 	// using the auth middle ware to validate api requests
-	handler.Use(middleware.AuthMiddleware)
+	//handler.Use(middleware.AuthMiddleware)
 
 	// Routers
 	h := handler.Group("/v1")
